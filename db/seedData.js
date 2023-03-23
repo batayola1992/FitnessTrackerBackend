@@ -14,21 +14,62 @@ const {
 async function dropTables() {
   try {
     console.log("Dropping All Tables...");
-  // drop all tables, in the correct order
+    // drop all tables, in the correct order
     client.query(`
-      DROP TABLE IF EXISTS mytablename`);
-    };
+      DROP TABLE IF EXISTS Users;
+      DROP TABLE IF EXIST Activities,
+      DROP TABLE IF EXIST Routines,
+      DROP TABLE IF EXIST RoutineActivities,
+      `);
 
-    console.log('Finished dropping tables!');
-}  catch (error) {
-  console.error('Error while dropping tables!')
-};
+    console.log("Finished dropping tables!");
+  } catch (error) {
+    console.error("Error while dropping tables!");
+
+    throw error;
+  }
+}
 
 async function createTables() {
-  console.log("Starting to build tables...");
-  // create all tables, in the correct order
-  client.query(`
-    CREATE TABLE mytablename`);
+  try {
+    console.log("Starting to build tables...");
+    // create all tables, in the correct order
+    await client.query(`
+    CREATE TABLE Users(
+      id SERIAL PRIMARY KEY,
+      username VARCHAR(255) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL,
+    );
+
+    CREATE TABLE Activities(
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) UNIQUE NOT NULL,
+      dscription TEXT NOT NULL,
+    );
+
+    CREATE TABLES Routines(
+      id SERIAL PRIMARY KEY,
+      "creatorld" INTEGER REFERENCE users(id),
+      "isPublic" BOOLEAN DEFAULT false,
+      name VARCHAR(255) UNIQUE NOT NULL,
+      goal TEXT NOT NULL,
+    );
+
+    CREATE TABLES RoutineActivities(
+      id SERIAL PRIMARY KEY,
+      "routineID" INTEGER REFERENCE routines (id),
+      "activityID" INTEGER REFERENCE activities (id),
+      duration INTEGER,
+      count INTEGER,
+    );
+    `);
+
+    console.log("Finished constructing tables!");
+  } catch (error) {
+    console.log("Error construting tables!");
+
+    throw error;
+  }
 }
 
 /* 
