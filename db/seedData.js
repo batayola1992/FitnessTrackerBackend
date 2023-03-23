@@ -19,8 +19,10 @@ async function dropTables() {
       DROP TABLE IF EXISTS mytablename`);
     };
 
-console.log('Finished dropping tables!');
-  };
+    console.log('Finished dropping tables!');
+}  catch (error) {
+  console.error('Error while dropping tables!')
+};
 
 async function createTables() {
   console.log("Starting to build tables...");
