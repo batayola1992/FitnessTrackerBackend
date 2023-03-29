@@ -17,9 +17,9 @@ async function dropTables() {
     // drop all tables, in the correct order
     client.query(`
       DROP TABLE IF EXISTS Users;
-      DROP TABLE IF EXIST Activities,
-      DROP TABLE IF EXIST Routines,
-      DROP TABLE IF EXIST RoutineActivities,
+      DROP TABLE IF EXISTS Activities,
+      DROP TABLE IF EXISTS Routines,
+      DROP TABLE IF EXISTS RoutineActivities,
       `);
 
     console.log("Finished dropping tables!");
